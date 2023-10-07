@@ -26,3 +26,8 @@
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 <!-- Plugin description end -->
+
+This plugin is also available on the [Intellij plugin repository](https://plugins.jetbrains.com/plugin/22869-flutterassets).
+
+## Usage
+[flutter_asset_literal_idea_plugin](https://github.com/bytedance/flutter_asset_literal_idea_plugin)

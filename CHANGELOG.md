@@ -2,6 +2,8 @@
 
 # FlutterAssets Changelog
 
-## [Unreleased]
+## [released]
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- [x] Automatically generate all files in the right-click selected directory to pubspec.yaml.
+- [ ] AI intelligent suggestions.
