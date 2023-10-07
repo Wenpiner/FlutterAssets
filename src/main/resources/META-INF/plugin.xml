@@ -1,0 +1,22 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>com.github.wenpiner.flutterassets</id>
+    <name>FlutterAssets</name>
+    <vendor>wenpiner</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <change-notes>
+        First release
+    </change-notes>
+
+    <actions>
+        <group id="Flutter Assets" text="Flutter Assets" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ReplaceInPath"/>
+        </group>
+        <action class="com.github.wenpiner.flutterassets.actionSystem.FlutterAssetsAction"
+                id="FlutterAssetsAction" description="Start flutter assets sync" text="Flutter Assets Sync">
+            <add-to-group group-id="Flutter Assets"/>
+        </action>
+    </actions>
+</idea-plugin>
