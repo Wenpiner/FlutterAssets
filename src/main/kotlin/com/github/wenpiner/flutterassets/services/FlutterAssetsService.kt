@@ -46,7 +46,9 @@ class MyTask(private var project: Project, private var relativePath: String) : R
             val tempMap = flutter as MutableMap<Any, Any>
             tempMap["assets"] = flutterAssets
         }
-        yaml.dump(yamlMap, pubspec.writer())
+
+        val s = yaml.dump(yamlMap)
+        pubspec.writeText(s)
         result = true
     }
 

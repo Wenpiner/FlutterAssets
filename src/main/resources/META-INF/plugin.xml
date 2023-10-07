@@ -15,7 +15,7 @@
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ReplaceInPath"/>
         </group>
         <action class="com.github.wenpiner.flutterassets.actionSystem.FlutterAssetsAction"
-                id="FlutterAssetsAction" description="Start flutter assets sync" text="Flutter Assets Sync">
+                id="FlutterAssetsAction" description="Start flutter assets sync" text="Sync">
             <add-to-group group-id="Flutter Assets"/>
         </action>
     </actions>
