@@ -1,11 +1,14 @@
 package com.github.wenpiner.flutterassets.services
 
+import com.github.wenpiner.flutterassets.util.readInputStream
+import com.github.wenpiner.flutterassets.util.writeStrings
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
-import org.yaml.snakeyaml.DumperOptions
-import org.yaml.snakeyaml.Yaml
-import java.io.File
+import com.intellij.openapi.vfs.LocalFileSystem
+import org.apache.tools.ant.filters.StringInputStream
+import java.io.*
 
 
 @Service(Service.Level.PROJECT)
@@ -20,6 +23,8 @@ class FlutterAssetsService(private var project: Project) {
 
 }
 
+
+
 class MyTask(private var project: Project, private var relativePath: String) : Runnable {
     private var result = false
     override fun run() {
@@ -29,26 +34,28 @@ class MyTask(private var project: Project, private var relativePath: String) : R
             result = false
             return
         }
-        val options = DumperOptions()
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK)
-        options.indent = 2
-        options.indicatorIndent = 2
-        options.indentWithIndicator = true
+        val findFileByIoFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(pubspec)
+        findFileByIoFile ?: return
+        findFileByIoFile.refresh(false, true)
+        WriteCommandAction.runWriteCommandAction(project, object : Runnable {
+            override fun run() {
+                val outputStream = findFileByIoFile.getOutputStream("FlutterAssetsService")
+                // 根据inputStream获取所有行
+                val inputStream = findFileByIoFile.inputStream
+                val allLines = inputStream.use {
+                    readInputStream(inputStream)
+                }
+                val writeStrings = writeStrings(allLines, flutterAssets)
 
-        val yaml = Yaml(options)
-        val yamlMap: MutableMap<String, Any> = yaml.load(pubspec.readText())
+                outputStream.use { it ->
+                    val str = writeStrings.joinToString("")
+                    it.write(str.toByteArray())
+                    it.flush()
+                }
+                findFileByIoFile.refresh(true, true)
+            }
+        });
 
-        val flutterKey = yamlMap.containsKey("flutter")
-        val flutter = yamlMap["flutter"];
-        if (!flutterKey || flutter == null) {
-            yamlMap["flutter"] = mapOf("assets" to flutterAssets)
-        } else {
-            val tempMap = flutter as MutableMap<Any, Any>
-            tempMap["assets"] = flutterAssets
-        }
-
-        val s = yaml.dump(yamlMap)
-        pubspec.writeText(s)
         result = true
     }
 
@@ -70,4 +77,6 @@ class MyTask(private var project: Project, private var relativePath: String) : R
         }
         return flutterAssets
     }
+
+
 }

@@ -5,6 +5,7 @@
     <vendor>wenpiner</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>Dart</depends>
 
     <change-notes>
         First release
@@ -19,4 +20,11 @@
             <add-to-group group-id="Flutter Assets"/>
         </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="Dart"
+                order="first"
+                implementationClass="com.github.wenpiner.flutterassets.completion.DartCompletionContributor"/>
+    </extensions>
 </idea-plugin>

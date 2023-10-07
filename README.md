@@ -11,6 +11,7 @@
 - [ ] AI intelligent suggestions.
 
 
+![demo](https://github.com/Wenpiner/FlutterAssets/blob/main/images/g.gif)
 ## Installation
 
 - Using the IDE built-in plugin system:

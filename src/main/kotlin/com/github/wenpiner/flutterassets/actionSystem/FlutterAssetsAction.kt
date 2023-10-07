@@ -32,10 +32,7 @@ class FlutterAssetsAction : AnAction() {
             e.presentation.isEnabledAndVisible = false
             return
         }
-
-        // 获取项目目录
         val projectPath = e.project!!.basePath ?: return
-        // 判断是否存在pubspec.yaml
         val pubspec = File("$projectPath/pubspec.yaml")
         if (!pubspec.exists() || !pubspec.isFile) {
             e.presentation.isEnabledAndVisible = false
