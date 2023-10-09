@@ -8,7 +8,7 @@
     <depends>Dart</depends>
 
     <change-notes>
-        First release
+        Added reference support for Flutter assets.
     </change-notes>
 
     <actions>
@@ -22,6 +22,12 @@
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
+        <psi.referenceContributor
+                implementation="com.github.wenpiner.flutterassets.reference.FlutterReferenceContributor"
+                language="Dart"/>
+        <codeInsight.lineMarkerProvider id="FlutterAssetsLineMarkerProvider"
+                                        implementationClass="com.github.wenpiner.flutterassets.line.FlutterAssetsLineMarkerProvider"
+                                        language="Dart"/>
         <completion.contributor
                 language="Dart"
                 order="first"

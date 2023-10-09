@@ -15,12 +15,9 @@ class FlutterAssetsAction : AnAction() {
         if (e.project == null) {
             return
         }
-        val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
-        val path = virtualFile.path
-
         val service = e.project!!.service<FlutterAssetsService>()
         ProgressManager.getInstance().runProcessWithProgressSynchronously(
-            { service.performLongRunningOperation(path) },
+            { service.performLongRunningOperation() },
             "Flutter sync",
             false,
             e.project

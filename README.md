@@ -8,10 +8,13 @@
 <!-- Plugin description -->
 
 - [x] Automatically generate all files in the right-click selected directory to pubspec.yaml.
+- [x] Support image display thumbnails.
+- [x] Click on the image path to jump
 - [ ] AI intelligent suggestions.
 
 
 ![demo](https://github.com/Wenpiner/FlutterAssets/blob/main/images/g.gif)
+![demo2](https://github.com/Wenpiner/FlutterAssets/blob/main/images/0.0.6.gif)
 ## Installation
 
 - Using the IDE built-in plugin system:

@@ -3,7 +3,8 @@
 # FlutterAssets Changelog
 
 ## [Unreleased]
-## [0.0.5]
+## [0.0.6]
 ### Added
-- [x] Automatically generate all files in the right-click selected directory to pubspec.yaml.
+- [x] Picture shown on the left
+- [x] reference link
 - [ ] AI intelligent suggestions.

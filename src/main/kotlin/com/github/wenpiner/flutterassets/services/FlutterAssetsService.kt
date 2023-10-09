@@ -9,20 +9,23 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import org.apache.tools.ant.filters.StringInputStream
 import java.io.*
+import java.nio.file.Paths
 
 
 @Service(Service.Level.PROJECT)
 class FlutterAssetsService(private var project: Project) {
 
-    fun performLongRunningOperation(relativePath: String): Boolean {
-        val task = MyTask(project = project, relativePath = relativePath)
-        ProgressManager.getInstance().runProcessWithProgressSynchronously(task, "Flutter sync", false, project)
+    fun performLongRunningOperation(): Boolean {
+
+        val projectPath = project.basePath ?: return false
+        val pubspecPath = Paths.get(projectPath, "assets")
+        val task = MyTask(project = project, relativePath = pubspecPath.toString())
+        ProgressManager.getInstance().runProcessWithProgressSynchronously(task, "Flutter Sync", false, project)
         return task.getResult()
     }
 
 
 }
-
 
 
 class MyTask(private var project: Project, private var relativePath: String) : Runnable {

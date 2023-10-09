@@ -17,14 +17,31 @@ fun findPubspecYamlFile(@NotNull project: Project, @NotNull currentFile: Virtual
 fun readInputStream(inputStream: InputStream): List<String> {
     val lines: MutableList<String> = ArrayList()
     try {
-        BufferedReader(InputStreamReader(inputStream)).use { reader ->
-            var line: String?
-            while (!reader.readLine().also { line = it }.isNullOrBlank()) {
-                lines.add(line ?: "")
+        val reader = InputStreamReader(inputStream)
+        val buffer = CharArray(1024)
+        var read: Int
+        var line = StringBuilder()
+        while (reader.read(buffer).also { read = it } != -1) {
+            for (i in 0 until read) {
+                val c = buffer[i]
+                if (c == '\n') {
+                    line = if (line.isEmpty()) {
+                        lines.add(System.lineSeparator())
+                        StringBuilder()
+                    } else {
+                        lines.add(line.toString())
+                        StringBuilder()
+                    }
+                } else {
+                    line.append(c)
+                }
             }
         }
+        if (line.isNotEmpty()) {
+            lines.add(line.toString())
+        }
     } catch (e: IOException) {
-        e.printStackTrace()
+        return emptyList()
     }
     return lines
 }
@@ -34,74 +51,76 @@ fun getFlutterAssets(oldTexts: List<String>): List<String> {
     var assetsBool = false;
     val assets = mutableListOf<String>()
     for (oldText in oldTexts) {
-        // 判断当前是否为Flutter节点
         if (!flutterBool && oldText.startsWith("flutter:")) {
             flutterBool = true;
             continue
         }
-        // 判断当前是否为assets节点
         if (!assetsBool && oldText.trim().contains("assets:") && flutterBool) {
             assetsBool = true;
             continue
         }
-        // 如果找到assets节点
         if (flutterBool && assetsBool) {
-            // 写入新的数据
             if (oldText.trim().startsWith("-")) {
                 assets.add(oldText.trim().substring(1).trim())
+            } else {
+                break
             }
         }
     }
     return assets
 }
 
-fun writeStrings(oldTexts: List<String>, newItems: List<String>): List<String> {
-    // 新的数据
-    val newTexts = mutableListOf<String>()
+fun String.clearText(): String {
+    if (this == System.lineSeparator()) {
+        return System.lineSeparator()
+    }
+    return "$this${System.lineSeparator()}"
+}
 
-    // 是否找到flutter节点
+fun writeStrings(oldTexts: List<String>, newItems: List<String>): List<String> {
+    val newTexts = mutableListOf<String>()
     var flutterBool = false;
-    // 是否找到assets节点
     var assetsBool = false;
     var write = false;
+    var old = false;
     for (oldText in oldTexts) {
-        // 判断当前是否为Flutter节点
+        if (old) {
+            newTexts.add(oldText.clearText())
+            continue
+        }
         if (!flutterBool && oldText.startsWith("flutter:")) {
             flutterBool = true;
             newTexts.add("$oldText${System.lineSeparator()}")
             continue
         }
-        // 判断当前是否为assets节点
         if (!assetsBool && oldText.trim().contains("assets:") && flutterBool) {
             assetsBool = true;
             newTexts.add("$oldText${System.lineSeparator()}")
             continue
         }
-
-        // 未找到Assets节点则直接写入注释
-        if (!assetsBool && !flutterBool && oldText.trim().startsWith("#")) {
-            newTexts.add("$oldText${System.lineSeparator()}")
+        if (!assetsBool && !flutterBool) {
+            newTexts.add(oldText.clearText())
             continue
-        }
-
-        // 如果找到assets节点
-        if (flutterBool && assetsBool && !write) {
-            // 写入新的数据
-            for (newItem in newItems) {
-                newTexts.add("    - $newItem${System.lineSeparator()}")
-            }
-            write = true
         } else {
-            newTexts.add("$oldText${System.lineSeparator()}")
+            if (!write) {
+                for (newItem in newItems) {
+                    newTexts.add("    - $newItem${System.lineSeparator()}")
+                }
+                write = true
+            } else {
+                if (!oldText.trim().startsWith("-")) {
+                    newTexts.add(oldText.clearText())
+                    old = true
+                    continue
+                }
+            }
         }
     }
-    // 如果未找到flutter节点，则直接写入
     if (!flutterBool) {
         newTexts.add("flutter: ${System.lineSeparator()}")
     }
     if (!assetsBool) {
         newTexts.add("  assets: ${System.lineSeparator()}")
-        // 写入新的数据
         for (newItem in newItems) {
             newTexts.add("    - $newItem${System.lineSeparator()}")
         }
