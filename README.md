@@ -4,6 +4,10 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/22869-flutterassets.svg)](https://plugins.jetbrains.com/plugin/22869-flutterassets)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/22869-flutterassets.svg)](https://plugins.jetbrains.com/plugin/22869-flutterassets)
 
+
+![demo](https://github.com/Wenpiner/FlutterAssets/blob/main/images/g.gif)
+![demo2](https://github.com/Wenpiner/FlutterAssets/blob/main/images/demo2.gif)
+
 ## Todo list
 <!-- Plugin description -->
 
@@ -12,9 +16,6 @@
 - [x] Click on the image path to jump
 - [ ] AI intelligent suggestions.
 
-
-![demo](https://github.com/Wenpiner/FlutterAssets/blob/main/images/g.gif)
-![demo2](https://github.com/Wenpiner/FlutterAssets/blob/main/images/demo2.gif)
 ## Installation
 
 - Using the IDE built-in plugin system:
