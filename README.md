@@ -14,7 +14,7 @@
 
 
 ![demo](https://github.com/Wenpiner/FlutterAssets/blob/main/images/g.gif)
-![demo2](https://github.com/Wenpiner/FlutterAssets/blob/main/images/0.0.6.gif)
+![demo2](https://github.com/Wenpiner/FlutterAssets/blob/main/images/demo2.gif)
 ## Installation
 
 - Using the IDE built-in plugin system:
